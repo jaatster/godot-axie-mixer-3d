@@ -262,6 +262,8 @@ static func absorb_part_skeletons(root: Node3D, body: Skeleton3D) -> void:
 			var parent := mi.get_parent()
 			if parent:
 				parent.remove_child(mi)
+			# The part scene's owner would point outside the body's subtree after the reparent.
+			mi.owner = null
 			body.add_child(mi)
 			mi.skeleton = NodePath("..")
 			mi.skin = new_skin

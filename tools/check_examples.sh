@@ -6,7 +6,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-GODOT="${GODOT:-}"
+GODOT="${GODOT:-${GODOT_BIN:-}}"
 if [[ -z "$GODOT" ]]; then
   if command -v godot >/dev/null 2>&1; then
     GODOT="$(command -v godot)"
