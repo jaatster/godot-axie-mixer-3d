@@ -23,7 +23,8 @@ jobs:
           echo "GODOT_BIN=$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64" >> "$GITHUB_ENV"
 
       - name: Import project
-        run: "$GODOT_BIN" --headless --path . --import || true
+        run: |
+          "$GODOT_BIN" --headless --path . --import || true
 
       - name: Run gates
         run: tools/run_gates.sh --no-render
