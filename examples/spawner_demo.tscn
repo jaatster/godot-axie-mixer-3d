@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://examples/spawner_demo.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://examples/bootstrap.tscn" id="2_boot"]
+
+[node name="SpawnerDemo" type="Node3D"]
+script = ExtResource("1_script")
+rows = 3
+columns = 3
+spacing = 2.5
+use_seed = true
+seed_value = 12345
+clip_name = "Idle"
+
+[node name="Bootstrap" parent="." instance=ExtResource("2_boot")]

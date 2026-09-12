@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://addons/axie_mixer_3d/shaders/outline_inflate.gdshader" id="1_inflate"]
+
+[resource]
+resource_name = "Outline_RenderObjects"
+render_priority = -1
+shader = ExtResource("1_inflate")
+shader_parameter/thickness = 0.02
+shader_parameter/base_color = Color(0, 0, 0, 1)

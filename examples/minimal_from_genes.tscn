@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://examples/minimal_from_genes.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://examples/bootstrap.tscn" id="2_boot"]
+
+[node name="MinimalFromGenes" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Bootstrap" parent="." instance=ExtResource("2_boot")]

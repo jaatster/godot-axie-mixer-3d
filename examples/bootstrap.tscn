@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/axie_mixer_3d/runtime/axie_mixer_initializer.gd" id="1_init"]
+[ext_resource type="Script" path="res://addons/axie_mixer_3d_weapon_anims/axie_weapon_anim_initializer.gd" id="2_weapon"]
+
+[node name="AxieMixerInitializer" type="Node"]
+script = ExtResource("1_init")
+catalog_path = "res://addons/axie_mixer_3d_assets/catalog.json"
+persist_across_scenes = true
+default_outline_mode = 1
+outline_layer = 2
+base_outline_layer = 1
+combine_meshes = true
+
+[node name="AxieWeaponAnimInitializer" type="Node" parent="."]
+script = ExtResource("2_weapon")

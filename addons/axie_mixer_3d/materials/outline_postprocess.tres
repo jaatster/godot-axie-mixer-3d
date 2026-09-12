@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://addons/axie_mixer_3d/shaders/outline_postprocess.gdshader" id="1_post"]
+
+[resource]
+resource_name = "PostProcess"
+render_priority = 16
+shader = ExtResource("1_post")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/thickness = 2.0
+shader_parameter/depth_scale = 50.0
+shader_parameter/depth_bias = 50.0
+shader_parameter/normal_scale = 0.7
+shader_parameter/normal_bias = 10.0
+shader_parameter/z_far = 4000.0

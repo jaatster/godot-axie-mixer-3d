@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://addons/axie_mixer_3d/shaders/mystic_outline.gdshader" id="shader"]
+
+[resource]
+resource_name = "Mystic_Final_ExtraPrePass"
+shader = ExtResource("shader")
+shader_parameter/outline = 0.02
+shader_parameter/outline_color = Color(0, 0, 0, 1)

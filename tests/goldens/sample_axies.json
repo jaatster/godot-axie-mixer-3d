@@ -1,0 +1,186 @@
+{
+  "note": "pinned live IDs for sample gate; mixer loads genes locally",
+  "required": ["123", "922", "4154", "1000", "1", "42", "256", "777", "2048", "3333"],
+  "spawn_min": 9,
+  "ids": [
+    {
+      "id": "123",
+      "name": "Axie #123",
+      "genes": "0x180000000000030002018040810800000001000c080043040001000c0800800200010014084083020001000c1860430600010008100085060001000408604506",
+      "len": 130,
+      "skip": false,
+      "body": "Normal",
+      "color": 8,
+      "primary1": "afdb1b",
+      "primary2": "e3efdb",
+      "parts": [
+        {"type": "Eye", "class": "Plant", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Plant02_L1_Eye"},
+        {"type": "Mouth", "class": "Plant", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Plant02_L1_Mouth"},
+        {"type": "Ear", "class": "Reptile", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Reptile02_L1_Ear"},
+        {"type": "Horn", "class": "Plant", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Plant06_L1_Horn"},
+        {"type": "Back", "class": "Bird", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Bird04_L1_Back"},
+        {"type": "Tail", "class": "Bug", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Bug02_L1_Tail"}
+      ]
+    },
+    {
+      "id": "922",
+      "name": "Axie #922",
+      "genes": "0x20000000000003000100a0b0040800000003000410208004000100100880430400010014082084020001000c188084020001001018404406000300000860c106",
+      "len": 130,
+      "skip": false,
+      "body": "Normal",
+      "color": 11,
+      "primary1": "f4fff4",
+      "primary2": "3ca1d9",
+      "parts": [
+        {"type": "Eye", "class": "Bug", "variant": 4, "skin": 0, "level": 2, "resolved": "S00_Bug04_L2_Eye"},
+        {"type": "Mouth", "class": "Aquatic", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Aquatic02_L1_Mouth"},
+        {"type": "Ear", "class": "Reptile", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Reptile02_L1_Ear"},
+        {"type": "Horn", "class": "Plant", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Plant06_L1_Horn"},
+        {"type": "Back", "class": "Aquatic", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Aquatic06_L1_Back"},
+        {"type": "Tail", "class": "Beast", "variant": 2, "skin": 0, "level": 2, "resolved": "S00_Beast02_L2_Tail"}
+      ]
+    },
+    {
+      "id": "4154",
+      "name": "Axie #4154",
+      "genes": "0x280000000000010003c1e0f1861800000003019428a1450a0003001420a105080003001420a1050800030180200100080002011420a105080003000c20610308",
+      "len": 130,
+      "skip": false,
+      "body": "Normal",
+      "color": 32,
+      "primary1": "00c15f",
+      "primary2": "f4aaff",
+      "parts": [
+        {"type": "Eye", "class": "Reptile", "variant": 10, "skin": 3, "level": 2, "resolved": "S03_Reptile10_L2_Eye"},
+        {"type": "Mouth", "class": "Reptile", "variant": 8, "skin": 0, "level": 2, "resolved": "S00_Reptile08_L2_Mouth"},
+        {"type": "Ear", "class": "Reptile", "variant": 8, "skin": 0, "level": 2, "resolved": "S00_Reptile08_L2_Ear"},
+        {"type": "Horn", "class": "Beast", "variant": 8, "skin": 3, "level": 2, "resolved": "S03_Beast08_L2_Horn"},
+        {"type": "Back", "class": "Reptile", "variant": 8, "skin": 2, "level": 2, "resolved": "S02_Reptile08_L2_Back"},
+        {"type": "Tail", "class": "Plant", "variant": 8, "skin": 0, "level": 2, "resolved": "S00_Plant08_L2_Tail"}
+      ]
+    },
+    {
+      "id": "1000",
+      "name": "Axie #1000",
+      "genes": "0x3000080e0710408000000010010082042020001000010a04502000100101800c304000100100800c506000100000840c206000100081860c506",
+      "len": 117,
+      "skip": false,
+      "body": "Fuzzy",
+      "color": 4,
+      "primary1": "f5a037",
+      "primary2": "fde5b6",
+      "parts": [
+        {"type": "Eye", "class": "Aquatic", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Aquatic02_L1_Eye"},
+        {"type": "Mouth", "class": "Beast", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Beast04_L1_Mouth"},
+        {"type": "Ear", "class": "Aquatic", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Aquatic06_L1_Ear"},
+        {"type": "Horn", "class": "Aquatic", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Aquatic02_L1_Horn"},
+        {"type": "Back", "class": "Beast", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Beast02_L1_Back"},
+        {"type": "Tail", "class": "Bird", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Bird06_L1_Tail"}
+      ]
+    },
+    {
+      "id": "1",
+      "name": "Axie #1",
+      "genes": "0x0",
+      "len": 3,
+      "skip": true,
+      "skip_reason": "short_genes"
+    },
+    {
+      "id": "42",
+      "name": "Axie #42",
+      "genes": "0x300014140200010000000010000080083020001000008604304000100040820c202000100141040c2040001000810004104000000900820c204",
+      "len": 117,
+      "skip": false,
+      "body": "Normal",
+      "color": 0,
+      "primary1": "fdfcf2",
+      "primary2": "af8c56",
+      "parts": [
+        {"type": "Eye", "class": "Beast", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Beast02_L1_Eye"},
+        {"type": "Mouth", "class": "Beast", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Beast02_L1_Mouth"},
+        {"type": "Ear", "class": "Bug", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Bug02_L1_Ear"},
+        {"type": "Horn", "class": "Reptile", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Reptile04_L1_Horn"},
+        {"type": "Back", "class": "Bird", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Bird04_L1_Back"},
+        {"type": "Tail", "class": "Aquatic", "variant": 2, "skin": 1, "level": 1, "resolved": "S01_Aquatic02_L1_Tail"}
+      ]
+    },
+    {
+      "id": "256",
+      "name": "Axie #256",
+      "genes": "0x20000000000003000341c070c30c00000001001008608402000100101020430400010010188044040001000010a084060001000c086041040002008408808504",
+      "len": 130,
+      "skip": false,
+      "body": "Normal",
+      "color": 14,
+      "primary1": "00dff3",
+      "primary2": "bffef4",
+      "parts": [
+        {"type": "Eye", "class": "Aquatic", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Aquatic02_L1_Eye"},
+        {"type": "Mouth", "class": "Aquatic", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Aquatic04_L1_Mouth"},
+        {"type": "Ear", "class": "Aquatic", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Aquatic06_L1_Ear"},
+        {"type": "Horn", "class": "Beast", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Beast04_L1_Horn"},
+        {"type": "Back", "class": "Plant", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Plant02_L1_Back"},
+        {"type": "Tail", "class": "Bug", "variant": 2, "skin": 1, "level": 2, "resolved": "S01_Bug02_L2_Tail"}
+      ]
+    },
+    {
+      "id": "777",
+      "name": "Axie #777",
+      "genes": "0x30000812000840000000001000810a044020001000808804504000100041080c106000100001860c302000100000840c1060001001008a0c002",
+      "len": 117,
+      "skip": false,
+      "body": "Fuzzy",
+      "color": 2,
+      "primary1": "ffd500",
+      "primary2": "fffeda",
+      "parts": [
+        {"type": "Eye", "class": "Bird", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Bird04_L1_Eye"},
+        {"type": "Mouth", "class": "Bird", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Bird02_L1_Mouth"},
+        {"type": "Ear", "class": "Bug", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Bug04_L1_Ear"},
+        {"type": "Horn", "class": "Beast", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Beast06_L1_Horn"},
+        {"type": "Back", "class": "Beast", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Beast02_L1_Back"},
+        {"type": "Tail", "class": "Aquatic", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Aquatic02_L1_Tail"}
+      ]
+    },
+    {
+      "id": "2048",
+      "name": "Axie #2048",
+      "genes": "0x20000000000003000100c0b0840c000000010000106041040001001408008302000100001080c4020001001018804204000100101820c1020001000018204306",
+      "len": 130,
+      "skip": false,
+      "body": "Normal",
+      "color": 13,
+      "primary1": "00f1d2",
+      "primary2": "befedb",
+      "parts": [
+        {"type": "Eye", "class": "Beast", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Beast04_L1_Eye"},
+        {"type": "Mouth", "class": "Reptile", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Reptile02_L1_Mouth"},
+        {"type": "Ear", "class": "Beast", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Beast04_L1_Ear"},
+        {"type": "Horn", "class": "Aquatic", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Aquatic06_L1_Horn"},
+        {"type": "Back", "class": "Aquatic", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Aquatic06_L1_Back"},
+        {"type": "Tail", "class": "Beast", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Beast06_L1_Tail"}
+      ]
+    },
+    {
+      "id": "3333",
+      "name": "Axie #3333",
+      "genes": "0x200000000000030002c14080831000000001001008a08504000100041020440200010004180043020001001410a0c30200010004086082060001001018408504",
+      "len": 130,
+      "skip": false,
+      "body": "Normal",
+      "color": 13,
+      "primary1": "00f1d2",
+      "primary2": "befedb",
+      "parts": [
+        {"type": "Eye", "class": "Aquatic", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Aquatic02_L1_Eye"},
+        {"type": "Mouth", "class": "Bug", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Bug04_L1_Mouth"},
+        {"type": "Ear", "class": "Bug", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Bug06_L1_Ear"},
+        {"type": "Horn", "class": "Reptile", "variant": 4, "skin": 0, "level": 1, "resolved": "S00_Reptile04_L1_Horn"},
+        {"type": "Back", "class": "Bug", "variant": 2, "skin": 0, "level": 1, "resolved": "S00_Bug02_L1_Back"},
+        {"type": "Tail", "class": "Aquatic", "variant": 6, "skin": 0, "level": 1, "resolved": "S00_Aquatic06_L1_Tail"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Godot
+.godot/
+*.translation
+export_presets.cfg
+export.cfg
+.mono/
+
+# OS / editor
+.DS_Store
+*.tmp
+__pycache__/
+*.pyc
