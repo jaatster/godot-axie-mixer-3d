@@ -24,7 +24,7 @@ The port is held to the Unity package's own output, produced by the same exporte
 | --- | --- |
 | `addons/axie_mixer_3d/` | The addon: `core/` (descriptor, gene decode, part resolver), `runtime/` (factory, character, combiner, catalog, avatar), `animation/` (playable, blend, clip names), `outline/`, `shaders/`, `import/` (material builder, pack format doc) |
 | `addons/axie_mixer_3d_weapon_anims/` | Optional weapon/action clips package (`AxieWeaponAnims`, `AxieWeaponAnimInitializer`, `WeaponAnimNames`) |
-| `addons/axie_mixer_3d_assets/` | Generated glTF asset pack (format 2, ~170 MB). Loaded at runtime; `.gdignore` keeps the editor from importing it |
+| `addons/axie_mixer_3d_assets/` | Generated glTF asset pack (format 2, ~250 MB). Loaded at runtime; `.gdignore` keeps the editor from importing it |
 | `examples/` | Community examples (below) |
 | `tests/` | Headless test runner, numeric oracle (`oracle/`), playable oracle (`playable_oracle/`), render oracle (`render_oracle/`), pinned sample genes |
 | `tools/unity_export/` | The Unity 6000.0 exporter that produces the pack and the three oracles |
