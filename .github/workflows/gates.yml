@@ -13,7 +13,7 @@ jobs:
     env:
       GODOT_VERSION: 4.7.2-stable
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Godot ${{ env.GODOT_VERSION }}
         run: |
