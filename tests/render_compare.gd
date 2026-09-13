@@ -25,6 +25,8 @@ var _direct := false
 var _particles := false
 var _ref_dir := "res://tests/render_oracle"
 var _out_dir := DEFAULT_OUT
+var _root_scale := 1.0
+var _shader_time := 0.0
 var _started := false
 var _viewport: SubViewport
 var _camera: Camera3D
@@ -60,12 +62,14 @@ func _process(_delta: float) -> bool:
 
 
 func _run() -> void:
-	var index_path := "res://tests/render_oracle/index.json"
+	var index_path := _ref_dir.path_join("index.json")
 	var index: Variant = JSON.parse_string(FileAccess.get_file_as_string(index_path))
 	if typeof(index) != TYPE_DICTIONARY:
 		_finish("render oracle index missing: %s" % index_path)
 		return
 	DirAccess.make_dir_recursive_absolute(_out_dir)
+	_root_scale = float(index.get("root_scale", 1.0))
+	_shader_time = float(index.get("shader_time", 0.0))
 	_setup_stage(index)
 
 	var catalog := AxieCatalog.load_json("res://addons/axie_mixer_3d_assets/catalog.json")
@@ -107,6 +111,7 @@ func _setup_stage(index: Dictionary) -> void:
 	env.ambient_light_color = _color(index.get("ambient", [0.5, 0.5, 0.5, 1.0]))
 	env.ambient_light_energy = 1.0
 	env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	env.tonemap_exposure = float(index.get("exposure", 1.0))
 	env.glow_enabled = false
 	env.fog_enabled = false
 	var world_env := WorldEnvironment.new()
@@ -149,6 +154,7 @@ func _render_fixture(factory: AxieFactory, fx: Dictionary, dir: String) -> void:
 		_fail_image(dir, "-", "factory returned no character")
 		return
 	_stage.add_child(character.root)
+	character.root.scale = Vector3.ONE * _root_scale
 	# Particle systems are excluded on the Unity side as well (unless --particles, preview only).
 	for n in character.root.find_children("*", "GPUParticles3D", true, false):
 		var gp := n as GPUParticles3D
@@ -332,7 +338,7 @@ func _freeze_mystic_time(root: Node) -> void:
 		for i in count:
 			var m := mi.get_active_material(i)
 			if MixerMaterials.is_mystic(m):
-				(m as ShaderMaterial).set_shader_parameter("mystic_time", 0.0)
+				(m as ShaderMaterial).set_shader_parameter("mystic_time", _shader_time)
 
 
 func _fail_image(dir: String, file: String, msg: String) -> void:

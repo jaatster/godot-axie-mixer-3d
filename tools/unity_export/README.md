@@ -58,7 +58,11 @@ Environment variables:
 | `AXIE_GODOT_BAKE_MULT` | `4` — clip samples per authored frame (120 samples/s at 30 fps); written to `catalog.json/animation_fps` so `AxieCatalog` re-bakes the glTF tracks at the same rate (docs/design.md §4) |
 | `AXIE_GODOT_SAMPLE_JSON` | `<GodotRepo>/tests/goldens/sample_axies.json` (genes of the live-ID fixtures) |
 | `AXIE_GODOT_EXPORT_ONLY` | `pack,oracle` |
-| `AXIE_GODOT_RENDER_HDR` | unset — the render stage pins the URP asset to HDR off / MSAA 1 while rendering; set `1` to keep the project setting |
+| `AXIE_GODOT_RENDER_HDR` | unset — `1` enables HDR on both the URP asset and camera, writes raw float EXRs, and writes display PNGs at the requested linear exposure |
+| `AXIE_GODOT_RENDER_SHADER_TIME` | `0` — nonzero values compile transient copies of original Mystic shaders with only `_TimeParameters.x` / `_Time.y` replaced by this time; no source assets are edited |
+| `AXIE_GODOT_RENDER_EXPOSURE` | `1` — linear exposure for HDR display PNGs; `0.01` exposes bright Mystic variation otherwise clipped by an LDR screenshot |
+| `AXIE_GODOT_RENDER_SCALE` | `1` — scale the character and camera equally to test material behavior at the same projected size |
+| `AXIE_GODOT_FIXTURES` | unset — comma-separated exact fixture names to export, e.g. `axie_883,axie_2875` |
 | `AXIE_GODOT_RENDER_PARTICLES` | unset — **preview only**: `1` keeps the mystic particle renderers and `Simulate`s every system to `AXIE_GODOT_RENDER_PARTICLES_TIME` (0.75 s) with a fixed seed. Use with `AXIE_GODOT_RENDER_DIR=/tmp/…`; never for the committed oracle. `AXIE_GODOT_RENDER_PARTICLES_ONLY=<material-name substring>`, `…_DEBUG=notsa`, `…_CUSTOM1=x,y,z,w`, `…_TSAFRAME=f` isolate one material / module for debugging (docs/design.md §4) |
 
 ## What each stage does

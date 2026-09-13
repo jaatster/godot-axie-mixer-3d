@@ -6,7 +6,7 @@ shader_type spatial;
 // Godot's process material cannot express a Unity duration/lifetime split or custom data curves.
 //
 // Colour math is gamma-space (the Unity project is Gamma): textures are sampled raw, colours arrive
-// as raw vec4s, and the clamped result is linearised at the end (same convention as the V5 shader).
+// as raw vec4s. Preserve HDR for glow; display clipping belongs to the viewport tonemapper.
 render_mode unshaded, cull_disabled, blend_mix, depth_draw_never, depth_test_default,
 	shadows_disabled, fog_disabled, specular_disabled, ambient_light_disabled;
 
@@ -43,6 +43,6 @@ void fragment() {
 	float mask = texture(mask_alpha, uv).r;
 	float static_switch = alpha_main_tex ? t.r * t.a : 1.0;
 	float alpha = mask * (t.a * v_color.a * s) * static_switch;
-	ALBEDO = vfx_srgb_to_linear(clamp(col, vec3(0.0), vec3(1.0)));
+	ALBEDO = min(vfx_srgb_to_linear(max(col, vec3(0.0))), vec3(65504.0));
 	ALPHA = clamp(alpha, 0.0, 1.0);
 }

@@ -40,6 +40,9 @@ fi
 if [[ "$RENDER" == "1" ]]; then
 	printf '\n== render oracle (tools/render_compare.sh)\n'
 	tools/render_compare.sh --out /tmp/axie_render_gates || { printf 'GATE RED: render\n'; exit 1; }
+	tools/render_compare.sh --ref res://tests/render_hdr_oracle --out /tmp/axie_render_hdr_gates || { printf 'GATE RED: HDR render\n'; exit 1; }
+	tools/mystic_hdr.sh forward_plus || { printf 'GATE RED: Mystic HDR Forward+\n'; exit 1; }
+	tools/mystic_hdr.sh mobile || { printf 'GATE RED: Mystic HDR Mobile\n'; exit 1; }
 fi
 
 printf '\nALL GATES GREEN\n'

@@ -37,7 +37,8 @@ void fragment() {
 	vec2 ss = SCREEN_UV * vector0.xy + TIME * vector0.zw;
 	vec4 fill = texture(texture_sample0, ss);
 	vec4 o = fill * inner * color1 + edge * (color0 * v_color);
-	ALBEDO = vfx_srgb_to_linear(clamp(o.rgb, vec3(0.0), vec3(1.0)));
+	// Keep the authored HDR edge intensity available to viewport glow.
+	ALBEDO = min(vfx_srgb_to_linear(max(o.rgb, vec3(0.0))), vec3(65504.0));
 	ALPHA = clamp(o.r, 0.0, 1.0);
 	ALPHA_SCISSOR_THRESHOLD = 0.5;
 }

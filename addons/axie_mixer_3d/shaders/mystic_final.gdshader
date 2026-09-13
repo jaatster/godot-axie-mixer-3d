@@ -9,7 +9,8 @@
 //   - primary/secondary: source_color (Godot linearises Color params) → linear_to_srgb() here.
 //   - HDR / raw colors (_RimColor, _Color0, _Top, _Mid, _Color3, _Color_UV2, _Color1): no hint,
 //     uploaded as Unity authored floats.
-//   - Final RGB is clamped to 0..1 (LDR) then srgb_to_linear() into EMISSION.
+//   - Final RGB remains HDR, then srgb_to_linear() into EMISSION. The viewport's
+//     tonemapper performs display clipping after glow has consumed the bright values.
 //
 // Matcap: (mul(UNITY_MATRIX_V, float4(worldN, 0)).xyz * 0.5 + 0.5).xy — no extra normalize.
 // Fragment NORMAL is view-space (post-skin); .xy remap matches the HLSL (Z-handedness unused).
@@ -193,8 +194,10 @@ void fragment() {
 	if (alpha < 0.5) {
 		discard;
 	}
-	vec3 working = clamp(body.rgb, 0.0, 1.0);
+	vec3 working = max(body.rgb, vec3(0.0));
 	// Unlit: do not write ALBEDO (Forward+ would add directional lighting on top of emission).
 	ALBEDO = vec3(0.0);
-	EMISSION = srgb_to_linear(working);
+	// The render target is half-float. Keep very bright authored gamma values
+	// finite after conversion so glow cannot encounter infinity * zero.
+	EMISSION = min(srgb_to_linear(working), vec3(65504.0));
 }

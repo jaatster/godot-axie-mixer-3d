@@ -1,0 +1,18 @@
+{
+  "unity_repository": "https://github.com/axieinfinity/unity-axie-mixer3d",
+  "unity_commit": "63ec82afc7deeec242734e70fea4bb9fffa904cc",
+  "unity_version": "6000.0.73f1",
+  "date": "2026-09-13",
+  "graphics": "Metal, Apple M5 Max",
+  "shader_time": 1.0,
+  "exposure": 0.01,
+  "hdr": "ARGBFloat, original Gamma shader output; converted to linear exposure then sRGB display for PNG comparison",
+  "bloom": false,
+  "particles": false,
+  "peak_unity_gamma_rgb": {
+    "axie_883_combined/rest_y000.png": 744.6679,
+    "axie_2875_combined/rest_y000.png": 36.75346
+  },
+  "shader_sha256": "e3833439f6b944be03741379970ce2b3682644daba1cb837dc3c99b912b552bf",
+  "note": "Only time inputs are replaced in transient ShaderUtil copies. Original material, mesh, texture and source shader assets are unchanged. EXR floats are reproducible but not committed."
+}
