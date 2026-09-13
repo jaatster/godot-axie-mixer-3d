@@ -30,6 +30,9 @@ static func ensure_bootstrap(host: Node) -> void:
 
 
 static func ensure_stage(host: Node, cam_pos: Vector3 = Vector3(0.0, 1.2, 3.5), look_at: Vector3 = Vector3(0.0, 0.7, 0.0)) -> void:
+	# Mobile otherwise uses a low-range buffer that clips Mystic HDR before glow.
+	if RenderingServer.get_current_rendering_method() == "mobile":
+		host.get_viewport().use_hdr_2d = true
 	if host.get_viewport().get_camera_3d() == null:
 		var cam := Camera3D.new()
 		cam.name = "MainCamera"
@@ -53,6 +56,11 @@ static func ensure_stage(host: Node, cam_pos: Vector3 = Vector3(0.0, 1.2, 3.5), 
 		env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 		env.ambient_light_color = Color(0.28, 0.3, 0.36)
 		env.ambient_light_energy = 0.55
+		env.glow_enabled = true
+		env.glow_intensity = 0.5
+		env.glow_bloom = 0.0
+		env.glow_hdr_threshold = 1.0
+		env.glow_blend_mode = Environment.GLOW_BLEND_MODE_ADDITIVE
 		we.environment = env
 		host.add_child(we)
 

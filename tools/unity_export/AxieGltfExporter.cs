@@ -1222,6 +1222,10 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
 
         static void RunRenders(string outDir, AxieFactory factory)
         {
+            var rootScale = float.Parse(Env("AXIE_GODOT_RENDER_SCALE", "1"), CultureInfo.InvariantCulture);
+            var renderHdr = Env("AXIE_GODOT_RENDER_HDR", "0") == "1";
+            var shaderTime = float.Parse(Env("AXIE_GODOT_RENDER_SHADER_TIME", "0"), CultureInfo.InvariantCulture);
+            var exposure = float.Parse(Env("AXIE_GODOT_RENDER_EXPOSURE", "1"), CultureInfo.InvariantCulture);
             Debug.Log($"[AxieGltfExporter] render oracle → {outDir}");
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
                 throw new InvalidOperationException("render stage needs a graphics device (run batchmode without -nographics)");
@@ -1258,7 +1262,7 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
             {
                 hdrProp?.SetValue(urpAsset, false);
                 msaaProp?.SetValue(urpAsset, 1);
-                if (Env("AXIE_GODOT_RENDER_HDR", "0") == "1") hdrProp?.SetValue(urpAsset, true);
+                if (renderHdr) hdrProp?.SetValue(urpAsset, true);
                 var cam = camGo.AddComponent<Camera>();
                 cam.clearFlags = CameraClearFlags.SolidColor;
                 cam.backgroundColor = RenderBackground;
@@ -1266,9 +1270,9 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                 cam.nearClipPlane = 0.05f;
                 cam.farClipPlane = 50f;
                 cam.allowMSAA = false;
-                cam.allowHDR = false;
-                cam.transform.position = RenderCameraPos;
-                cam.transform.LookAt(RenderCameraTarget, Vector3.up);
+                cam.allowHDR = renderHdr;
+                cam.transform.position = RenderCameraPos * rootScale;
+                cam.transform.LookAt(RenderCameraTarget * rootScale, Vector3.up);
                 // URP adds UniversalAdditionalCameraData lazily with defaults (no post-processing, no AA);
                 // the Dev.Editor asmdef has no URP reference so we do not touch it here.
 
@@ -1280,10 +1284,10 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                 lightGo.transform.rotation = Quaternion.Euler(RenderLightEuler);
                 RenderSettings.sun = light;
 
-                rt = new RenderTexture(RenderSize, RenderSize, 24, RenderTextureFormat.ARGB32) { antiAliasing = 1 };
+                rt = new RenderTexture(RenderSize, RenderSize, 24, renderHdr ? RenderTextureFormat.ARGBFloat : RenderTextureFormat.ARGB32) { antiAliasing = 1 };
                 rt.Create();
                 cam.targetTexture = rt;
-                readback = new Texture2D(RenderSize, RenderSize, TextureFormat.RGBA32, false);
+                readback = new Texture2D(RenderSize, RenderSize, renderHdr ? TextureFormat.RGBAFloat : TextureFormat.RGBA32, false, renderHdr);
 
                 var yaws = new[] { 0f, 45f, 90f, 135f, 180f, 225f, 270f, 315f };
                 var poses = new List<(string clip, float t, float[] yaws)>
@@ -1302,10 +1306,13 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                 idx.Key("hdr"); idx.Value(hdrProp != null && (bool)hdrProp.GetValue(urpAsset));
                 idx.Key("urp_asset"); idx.Value(urpAsset != null ? urpAsset.name : "");
                 idx.Key("shader_time_frozen"); idx.Value(true);
+                idx.Key("root_scale"); idx.Value(rootScale);
+                idx.Key("shader_time"); idx.Value(shaderTime);
+                idx.Key("exposure"); idx.Value(exposure);
                 idx.Key("camera");
                 idx.BeginObject();
-                idx.Key("position"); WriteVec3(idx, MV(RenderCameraPos));
-                idx.Key("target"); WriteVec3(idx, MV(RenderCameraTarget));
+                idx.Key("position"); WriteVec3(idx, MV(RenderCameraPos * rootScale));
+                idx.Key("target"); WriteVec3(idx, MV(RenderCameraTarget * rootScale));
                 idx.Key("fov_vertical"); idx.Value(cam.fieldOfView);
                 idx.Key("near"); idx.Value(cam.nearClipPlane);
                 idx.Key("far"); idx.Value(cam.farClipPlane);
@@ -1324,6 +1331,7 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                         var character = factory.CreateCharacter(fx.Descriptor, p);
                         if (character == null) continue;
                         Dictionary<Material, (Dictionary<string, Vector4> vecs, Dictionary<string, float> floats)> frozen = null;
+                        var timedShaders = new Dictionary<Shader, Shader>();
                         try
                         {
                             var root = character.Root;
@@ -1363,7 +1371,8 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                                 }
                             }
                             // Time-scrolled mystic panners: pin to the t = 0 frame (see FreezeShaderTime).
-                            frozen = FreezeShaderTime(root);
+                            if (shaderTime == 0f) frozen = FreezeShaderTime(root);
+                            else PinShaderTime(root, shaderTime, timedShaders);
                             // Skin matrices are normally refreshed by the player loop, not by Camera.Render(); without
                             // this the edit-mode render shows the previous sample's pose.
                             foreach (var smr in root.GetComponentsInChildren<SkinnedMeshRenderer>(true)) smr.forceMatrixRecalculationPerRender = true;
@@ -1388,6 +1397,7 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                                     RestoreRest(transforms, rest);
                                     if (clip != null) sampler.Sample(clip, t);
                                     root.transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+                                    root.transform.localScale = Vector3.one * rootScale;
                                     cam.Render();
                                     var prevActive = RenderTexture.active;
                                     RenderTexture.active = rt;
@@ -1396,7 +1406,25 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                                     RenderTexture.active = prevActive;
                                     var tag = string.IsNullOrEmpty(clipName) ? "rest" : $"{clipName}_{t.ToString("0.00", CultureInfo.InvariantCulture)}";
                                     var file = $"{tag}_y{yaw:000}.png";
-                                    File.WriteAllBytes(Path.Combine(dir, file), readback.EncodeToPNG());
+                                    if (renderHdr)
+                                    {
+                                        File.WriteAllBytes(Path.Combine(dir, Path.ChangeExtension(file, ".exr")), readback.EncodeToEXR(Texture2D.EXRFlags.OutputAsFloat));
+                                        var colors = readback.GetPixels();
+                                        var peak = 0f;
+                                        var hdrPixels = 0;
+                                        for (var c = 0; c < colors.Length; c++)
+                                        {
+                                            peak = Mathf.Max(peak, colors[c].maxColorComponent);
+                                            if (colors[c].maxColorComponent > 1.01f) hdrPixels++;
+                                            colors[c] = HdrDisplayColor(colors[c], exposure);
+                                        }
+                                        var png = new Texture2D(RenderSize, RenderSize, TextureFormat.RGBA32, false);
+                                        png.SetPixels(colors); png.Apply();
+                                        File.WriteAllBytes(Path.Combine(dir, file), png.EncodeToPNG());
+                                        UnityEngine.Object.DestroyImmediate(png);
+                                        Debug.Log($"[AxieGltfExporter] HDR {fx.Name} combined={combine} {file} peak={peak} pixels={hdrPixels}");
+                                    }
+                                    else File.WriteAllBytes(Path.Combine(dir, file), readback.EncodeToPNG());
                                     written.Add((file, clipName, t, yaw));
                                 }
                             }
@@ -1443,6 +1471,7 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                             if (frozen != null) RestoreShaderTime(frozen);
                             var rootGo = character.Root;
                             if (rootGo != null) UnityEngine.Object.DestroyImmediate(rootGo);
+                            foreach (var shader in timedShaders.Values) UnityEngine.Object.DestroyImmediate(shader);
                         }
                     }
                 }
@@ -1465,6 +1494,45 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                 if (weaponCatalog != null) AxieWeaponAnims.Unregister(weaponCatalog, factory);
                 AxieFactory.Default = previous;
             }
+        }
+
+        // Compile transient copies of the original shaders with only their time inputs pinned.
+        // Source assets and material values are unchanged; this also covers nonzero panner phases.
+        static void PinShaderTime(GameObject root, float time, Dictionary<Shader, Shader> copies)
+        {
+            var literal = time.ToString("0.########", CultureInfo.InvariantCulture);
+            foreach (var renderer in root.GetComponentsInChildren<Renderer>(true))
+                foreach (var material in renderer.sharedMaterials)
+                {
+                    if (material == null || material.shader == null || !material.shader.name.Contains("Mystic")) continue;
+                    var original = material.shader;
+                    if (copies.ContainsValue(original)) continue;
+                    if (!copies.TryGetValue(original, out var timed))
+                    {
+                        var path = AssetDatabase.GetAssetPath(original);
+                        if (!path.EndsWith(".shader", StringComparison.Ordinal))
+                            throw new InvalidOperationException($"Cannot pin shader time for {path}");
+                        var source = File.ReadAllText(path).Replace("_TimeParameters.x", literal).Replace("_Time.y", literal);
+                        timed = ShaderUtil.CreateShaderAsset(source, true);
+                        if (ShaderUtil.ShaderHasError(timed)) throw new InvalidOperationException($"Timed shader failed: {path}");
+                        copies.Add(original, timed);
+                    }
+                    material.shader = timed;
+                }
+        }
+
+        // The Unity project shades in gamma space. Convert the floating-point render into the
+        // same linear exposure + display transfer used by Godot, without bloom or tonemap curves.
+        static Color HdrDisplayColor(Color value, float exposure)
+        {
+            float Channel(float c)
+            {
+                c = Mathf.Max(c, 0f);
+                var linear = c <= 0.04045f ? c / 12.92f : Mathf.Pow((c + 0.055f) / 1.055f, 2.4f);
+                linear = Mathf.Min(linear, 65504f) * exposure;
+                return Mathf.Clamp01(linear <= 0.0031308f ? linear * 12.92f : 1.055f * Mathf.Pow(linear, 1f / 2.4f) - 0.055f);
+            }
+            return new Color(Channel(value.r), Channel(value.g), Channel(value.b), 1f);
         }
 
         static List<OracleFixture> BuildFixtures()
@@ -1522,6 +1590,12 @@ namespace SkyMavis.AxieMixer3D.Dev.Editor
                 {
                     Debug.LogWarning($"[AxieGltfExporter] oracle: sample json unreadable: {ex.Message}");
                 }
+            }
+            var filter = Env("AXIE_GODOT_FIXTURES", "");
+            if (!string.IsNullOrEmpty(filter))
+            {
+                var names = new HashSet<string>(filter.Split(','));
+                list.RemoveAll(fx => !names.Contains(fx.Name));
             }
             return list;
         }
